@@ -99,26 +99,18 @@
             }
         });
 
-        canvas.addEventListener("touchstart", function(event) {
-            let touch = event.touches[0];
-            if(touch.clientX < canvas.width / 2) {
-                if(touch.clientY < leftPlayerY + playerHeight / 2) wKey = true;
-                else sKey = true;
-            } else {
-                if(touch.clientY < rightPlayerY + playerHeight / 2) upArrow = true;
-                else downArrow = true;
-            }
-        });
-
-        canvas.addEventListener("touchend", function(event) {
-            wKey = false;
-            sKey = false;
-            upArrow = false;
-            downArrow = false;
-        });
-
         restartButton.addEventListener("click", function() {
-            location.reload();
+            score1 = 0;
+            score2 = 0;
+            ballObj.x = canvas.width / 2;
+            ballObj.y = canvas.height / 2;
+            ballObj.dx = 4;
+            ballObj.dy = 4;
+            ballObj.image = ball;
+            boost1 = true;
+            boost2 = true;
+            restartButton.style.display = "none";
+            animate();
         });
 
         animate();
