@@ -33,15 +33,17 @@
         let scale = 1;
 
         function resizeCanvas() {
+    const width = window.innerWidth;
     const height = window.innerHeight;
-    scale = height / BASE_HEIGHT;
 
-    canvas.width = BASE_WIDTH * scale;
-    canvas.height = BASE_HEIGHT * scale;
+    canvas.width = width;
+    canvas.height = height;
 
-    context.scale(scale, scale);
+    const widthScale = width / BASE_WIDTH;
+    const heightScale = height / BASE_HEIGHT;
+
+    context.scale(widthScale, heightScale);
 }
-
 
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
