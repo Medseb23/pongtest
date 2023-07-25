@@ -6,15 +6,24 @@
         * { padding: 0; margin: 0; }
         canvas { background: #000; display: block; margin: 0 auto; }
         #restart { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 20px; padding: 10px 20px; }
+        .score-board { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); text-align: center; color: white; font-family: Arial, sans-serif; }
+        .score-board .score { font-size: 24px; }
+        .score-board .score span { font-size: 30px; font-weight: bold; }
     </style>
 </head>
 <body>
     <canvas id="pong"></canvas>
     <button id="restart">Restart Game</button>
+    <div class="score-board">
+        <div class="score">Player 1: <span id="score1">0</span></div>
+        <div class="score">Player 2: <span id="score2">0</span></div>
+    </div>
     <script>
         const canvas = document.getElementById("pong");
         const context = canvas.getContext("2d");
         const restartButton = document.getElementById("restart");
+        const score1Element = document.getElementById("score1");
+        const score2Element = document.getElementById("score2");
 
         const BASE_WIDTH = 800;
         const BASE_HEIGHT = 500;
@@ -53,7 +62,7 @@
         player2.src = "jugador2.png";
 
         const ballObj = { x: BASE_WIDTH / 2, y: BASE_HEIGHT / 2, dx: 4, dy: 4, radius: 10, speed: 2, image: ball };
-        const playerWidth = 20, playerHeight = 100, playerSpeed = 8;
+        const playerWidth = 20, playerHeight = 100, playerSpeed = 4;
         let leftPlayerY = BASE_HEIGHT / 2, rightPlayerY = BASE_HEIGHT / 2;
         let upArrow = false, downArrow = false, wKey = false, sKey = false, dKey = false, rightArrow = false;
         let score1 = 0, score2 = 0;
@@ -81,10 +90,8 @@
             else if(ballObj.x + ballObj.radius > BASE_WIDTH) { ballObj.x = BASE_WIDTH / 2; ballObj.y = BASE_HEIGHT / 2; score1++; ballObj.dx = 4; ballObj.image = ball; if(score1 % 3 == 0) boost1 = true; }
             else if(ballObj.x - ballObj.radius < 0) { ballObj.x = BASE_WIDTH / 2; ballObj.y = BASE_HEIGHT / 2; score2++; ballObj.dx = -4; ballObj.image = ball; if(score2 % 3 == 0) boost2 = true; }
 
-            context.fillStyle = "white";
-            context.font = "24px Arial";
-            context.fillText(`Player 1: ${score1}`, BASE_WIDTH / 2 - 100, 20);
-            context.fillText(`Player 2: ${score2}`, BASE_WIDTH / 2 + 50, 20);
+            score1Element.textContent = score1;
+            score2Element.textContent = score2;
 
             if(boost1) context.drawImage(ballPower1, 10, 10, 20, 20);
             if(boost2) context.drawImage(ballPower2, BASE_WIDTH - 30, 10, 20, 20);
@@ -104,7 +111,7 @@
                 case 68: dKey = true; break;
                 case 39: rightArrow = true; break;
             }
-        });
+        }, false);
 
         window.addEventListener("keyup", function(event) {
             switch(event.keyCode) {
@@ -115,11 +122,13 @@
                 case 68: dKey = false; break;
                 case 39: rightArrow = false; break;
             }
-        });
+        }, false);
 
         restartButton.addEventListener("click", function() {
             score1 = 0;
             score2 = 0;
+            leftPlayerY = BASE_HEIGHT / 2;
+            rightPlayerY = BASE_HEIGHT / 2;
             ballObj.x = BASE_WIDTH / 2;
             ballObj.y = BASE_HEIGHT / 2;
             ballObj.dx = 4;
