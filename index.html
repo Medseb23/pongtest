@@ -28,21 +28,24 @@
         const score1Element = document.getElementById("score1");
         const score2Element = document.getElementById("score2");
 
-        const BASE_WIDTH = 800;
-        const BASE_HEIGHT = 500;
+        const BASE_WIDTH = 1280;
+        const BASE_HEIGHT = 720;
         let scale = 1;
 
         function resizeCanvas() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const widthScale = width / BASE_WIDTH;
+            const heightScale = height / BASE_HEIGHT;
 
-    canvas.width = width;
-    canvas.height = height;
+            scale = Math.min(widthScale, heightScale);
 
-    const widthScale = width / BASE_WIDTH;
-    const heightScale = height / BASE_HEIGHT;
+            canvas.width = BASE_WIDTH * scale;
+            canvas.height = BASE_HEIGHT * scale;
 
-    context.scale(widthScale, heightScale);
+            context.scale(scale, scale);
+        }
+
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
@@ -62,7 +65,7 @@
         player2.src = "jugador2.png";
 
         const ballObj = { x: BASE_WIDTH / 2, y: BASE_HEIGHT / 2, dx: 4, dy: 4, radius: 10, speed: 2, image: ball };
-        const playerWidth = 20, playerHeight = 100, playerSpeed = 4;
+        const playerWidth = 20, playerHeight = 100, playerSpeed = 8;
         let leftPlayerY = BASE_HEIGHT / 2, rightPlayerY = BASE_HEIGHT / 2;
         let upArrow = false, downArrow = false, wKey = false, sKey = false, dKey = false, rightArrow = false;
         let score1 = 0, score2 = 0;
@@ -191,9 +194,11 @@
         }, false);
 
         animate();
-         document.body.addEventListener('touchmove', function(event) {
+
+    document.body.addEventListener('touchmove', function(event) {
         event.preventDefault();
     }, false);
+        
     </script>
 </body>
 </html>
