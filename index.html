@@ -142,7 +142,9 @@
         });
 
         fullscreenButton.addEventListener("click", function() {
-            if(canvas.requestFullscreen) {
+            if(canvas.webkitEnterFullscreen) {
+                canvas.webkitEnterFullscreen();
+            } else if(canvas.requestFullscreen) {
                 canvas.requestFullscreen();
             } else if(canvas.mozRequestFullScreen) { /* Firefox */
                 canvas.mozRequestFullScreen();
@@ -168,6 +170,7 @@
         }, false);
 
         canvas.addEventListener('touchmove', function(event) {
+            event.preventDefault();
             const touch = event.touches[0];
             const touchX = touch.clientX;
             const touchY = touch.clientY;
