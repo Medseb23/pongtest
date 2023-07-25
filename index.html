@@ -33,19 +33,17 @@
         let scale = 1;
 
         function resizeCanvas() {
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-            const widthScale = width / BASE_WIDTH;
-            const heightScale = height / BASE_HEIGHT;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
 
-            scale = Math.min(widthScale, heightScale);
+    canvas.width = width;
+    canvas.height = height;
 
-            canvas.width = BASE_WIDTH * scale;
-            canvas.height = BASE_HEIGHT * scale;
+    const widthScale = width / BASE_WIDTH;
+    const heightScale = height / BASE_HEIGHT;
 
-            context.scale(scale, scale);
-        }
-
+    context.scale(widthScale, heightScale);
+}
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
@@ -155,42 +153,65 @@
         let touchStartY1 = null;
         let touchStartY2 = null;
 
-        canvas.addEventListener('touchstart', function(event) {
-            const touch = event.touches[0];
+        let touchStartY1 = null;
+let touchStartY2 = null;
+
+canvas.addEventListener('touchstart', function(event) {
+    for (let i = 0; i < event.touches.length; i++) {
+        const touch = event.touches[i];
+        const touchX = touch.clientX;
+        const touchY = touch.clientY;
+
+        if (touchX < BASE_WIDTH / 2) {
+            touchStartY1 = touchY;
+        } else {
+            touchStartY2 = touchY;
+        }
+    }
+}, false);
+
+canvas.addEventListener('touchmove', function(event) {
+    event.preventDefault();
+    for (let i = 0; i < event.touches.length; i++) {
+        const touch = event.touches[i];
+        const touchX = touch.clientX;
+        const touchY = touch.clientY;
+
+        if (touchX < BASE_WIDTH / 2 && touchStartY1 !== null) {
+            const diffY = touchY - touchStartY1;
+            leftPlayerY += diffY / scale;
+            touchStartY1 = touchY;
+        } else if (touchStartY2 !== null) {
+            const diffY = touchY - touchStartY2;
+            rightPlayerY += diffY / scale;
+            touchStartY2 = touchY;
+        }
+    }
+}, false);
+
+canvas.addEventListener('touchend', function(event) {
+    if (event.touches.length === 0) {
+        touchStartY1 = null;
+        touchStartY2 = null;
+    } else {
+        for (let i = 0; i < event.touches.length; i++) {
+            const touch = event.touches[i];
             const touchX = touch.clientX;
-            const touchY = touch.clientY;
 
             if (touchX < BASE_WIDTH / 2) {
-                touchStartY1 = touchY;
-            } else {
-                touchStartY2 = touchY;
-            }
-        }, false);
-
-        canvas.addEventListener('touchmove', function(event) {
-            const touch = event.touches[0];
-            const touchX = touch.clientX;
-            const touchY = touch.clientY;
-
-            if (touchX < BASE_WIDTH / 2 && touchStartY1 !== null) {
-                const diffY = touchY - touchStartY1;
-                leftPlayerY += diffY / scale;
-                touchStartY1 = touchY;
-            } else if (touchStartY2 !== null) {
-                const diffY = touchY - touchStartY2;
-                rightPlayerY += diffY / scale;
-                touchStartY2 = touchY;
-            }
-        }, false);
-
-        canvas.addEventListener('touchend', function(event) {
-            if (event.touches.length === 0) {
                 touchStartY1 = null;
+            } else {
                 touchStartY2 = null;
             }
-        }, false);
+        }
+    }
+}, false);
 
         animate();
+          document.body.addEventListener('touchmove', function(event) {
+        event.preventDefault();
+    }, false);
+
     </script>
 </body>
 </html>
