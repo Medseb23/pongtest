@@ -9,11 +9,13 @@
         .score-board { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); text-align: center; color: white; font-family: Arial, sans-serif; }
         .score-board .score { font-size: 24px; }
         .score-board .score span { font-size: 30px; font-weight: bold; }
+        #fullscreen { position: absolute; top: 10px; right: 10px; font-size: 20px; padding: 10px 20px; }
     </style>
 </head>
 <body>
     <canvas id="pong"></canvas>
     <button id="restart">Restart Game</button>
+    <button id="fullscreen">Fullscreen</button>
     <div class="score-board">
         <div class="score">Player 1: <span id="score1">0</span></div>
         <div class="score">Player 2: <span id="score2">0</span></div>
@@ -22,6 +24,7 @@
         const canvas = document.getElementById("pong");
         const context = canvas.getContext("2d");
         const restartButton = document.getElementById("restart");
+        const fullscreenButton = document.getElementById("fullscreen");
         const score1Element = document.getElementById("score1");
         const score2Element = document.getElementById("score2");
 
@@ -138,6 +141,18 @@
             boost2 = true;
             restartButton.style.display = "none";
             animate();
+        });
+
+        fullscreenButton.addEventListener("click", function() {
+            if(canvas.requestFullscreen) {
+                canvas.requestFullscreen();
+            } else if(canvas.mozRequestFullScreen) { /* Firefox */
+                canvas.mozRequestFullScreen();
+            } else if(canvas.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                canvas.webkitRequestFullscreen();
+            } else if(canvas.msRequestFullscreen) { /* IE/Edge */
+                canvas.msRequestFullscreen();
+            }
         });
 
         animate();
