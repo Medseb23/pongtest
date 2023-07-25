@@ -156,6 +156,9 @@
         let touchStartY1 = null;
         let touchStartY2 = null;
 
+let touchStartY1 = null;
+let touchStartY2 = null;
+
 canvas.addEventListener('touchstart', function(event) {
     for (let i = 0; i < event.touches.length; i++) {
         const touch = event.touches[i];
@@ -189,12 +192,23 @@ canvas.addEventListener('touchmove', function(event) {
     }
 }, false);
 
-        canvas.addEventListener('touchend', function(event) {
-            if (event.touches.length === 0) {
+canvas.addEventListener('touchend', function(event) {
+    if (event.touches.length === 0) {
+        touchStartY1 = null;
+        touchStartY2 = null;
+    } else {
+        for (let i = 0; i < event.touches.length; i++) {
+            const touch = event.touches[i];
+            const touchX = touch.clientX;
+
+            if (touchX < BASE_WIDTH / 2) {
                 touchStartY1 = null;
+            } else {
                 touchStartY2 = null;
             }
-        }, false);
+        }
+    }
+}, false);
 
         animate();
 
