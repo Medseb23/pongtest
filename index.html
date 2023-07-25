@@ -15,7 +15,10 @@
 <body>
     <canvas id="pong"></canvas>
     <button id="restart">Restart Game</button>
-    <button id="fullscreen">Fullscreen</button>
+    <button id="fullscreenButton" style="position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); font-size: 30px; opacity: 0.5;">
+    &#x1F5D6;
+</button>
+
     <div class="score-board">
         <div class="score">Player 1: <span id="score1">0</span></div>
         <div class="score">Player 2: <span id="score2">0</span></div>
@@ -141,18 +144,18 @@
         });
 
         fullscreenButton.addEventListener("click", function() {
-            if(canvas.webkitEnterFullscreen) {
-                canvas.webkitEnterFullscreen();
-            } else if(canvas.requestFullscreen) {
-                canvas.requestFullscreen();
-            } else if(canvas.mozRequestFullScreen) { /* Firefox */
-                canvas.mozRequestFullScreen();
-            } else if(canvas.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-                canvas.webkitRequestFullscreen();
-            } else if(canvas.msRequestFullscreen) { /* IE/Edge */
-                canvas.msRequestFullscreen();
-            }
-        });
+    if(canvas.webkitEnterFullscreen) {
+        canvas.webkitEnterFullscreen();
+    } else if(canvas.requestFullscreen) {
+        canvas.requestFullscreen();
+    } else if(canvas.mozRequestFullScreen) { /* Firefox */
+        canvas.mozRequestFullScreen();
+    } else if(canvas.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        canvas.webkitRequestFullscreen();
+    } else if(canvas.msRequestFullscreen) { /* IE/Edge */
+        canvas.msRequestFullscreen();
+    }
+});
         let touchStartY1 = null;
         let touchStartY2 = null;
 
