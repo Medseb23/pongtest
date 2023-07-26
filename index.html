@@ -35,6 +35,9 @@
         <div class="score">Player 2: <span id="score2">0</span></div>
     </div>
     <script>
+const pingSound = new Audio('ping.wav');
+const pongSound = new Audio('pong.wav');
+const powerSound = new Audio('power.wav');
 
 const power1Button = document.getElementById("power1");
 const power2Button = document.getElementById("power2");
@@ -128,8 +131,28 @@ power2Button.addEventListener('touchstart', function(event) {
             else if(downArrow && (rightPlayerY < BASE_HEIGHT - playerHeight)) rightPlayerY += playerSpeed;
 
             if(ballObj.y + ballObj.radius > BASE_HEIGHT || ballObj.y - ballObj.radius < 0) ballObj.dy *= -1;
-            if(ballObj.dx < 0 && ballObj.y + ballObj.radius > leftPlayerY && ballObj.y - ballObj.radius < leftPlayerY + playerHeight && ballObj.x - ballObj.radius < playerWidth) { ballObj.dx *= -1; if(dKey && boost1) { ballObj.dx *= 3; ballObj.image = (powerAnimation++ % 15 < 7) ? ballPower1 : ballPower1; boost1 = false; } }
-            else if(ballObj.dx > 0 && ballObj.y + ballObj.radius > rightPlayerY && ballObj.y - ballObj.radius < rightPlayerY + playerHeight && ballObj.x + ballObj.radius > BASE_WIDTH - playerWidth) { ballObj.dx *= -1; if(rightArrow && boost2) { ballObj.dx *= 3; ballObj.image = (powerAnimation++ % 15 < 7) ? ballPower1 : ballPower1; boost2 = false; } }
+           if(ballObj.dx < 0 && ballObj.y + ballObj.radius > leftPlayerY && ballObj.y - ballObj.radius < leftPlayerY + playerHeight && ballObj.x - ballObj.radius < playerWidth) { 
+    ballObj.dx *= -1; 
+    if(dKey && boost1) { 
+        ballObj.dx *= 3; 
+        ballObj.image = (powerAnimation++ % 15 < 7) ? ballPower1 : ballPower2; 
+        boost1 = false; 
+        powerSound.play(); // Reproduce el sonido power.mp3
+    } else {
+        pingSound.play(); // Reproduce el sonido ping.mp3
+    }
+} else if(ballObj.dx > 0 && ballObj.y + ballObj.radius > rightPlayerY && ballObj.y - ballObj.radius < rightPlayerY + playerHeight && ballObj.x + ballObj.radius > BASE_WIDTH - playerWidth) { 
+    ballObj.dx *= -1; 
+    if(rightArrow && boost2) { 
+        ballObj.dx *= 3; 
+        ballObj.image = (powerAnimation++ % 15 < 7) ? ballPower1 : ballPower2; 
+        boost2 = false; 
+        powerSound.play(); // Reproduce el sonido power.mp3
+    } else {
+        pongSound.play(); // Reproduce el sonido pong.mp3
+    }
+}
+
             else if(ballObj.x + ballObj.radius > BASE_WIDTH) { ballObj.x = BASE_WIDTH / 2; ballObj.y = BASE_HEIGHT / 2; score1++; ballObj.dx = 4; ballObj.image = ball; if(score1 % 3 == 0) boost1 = true; }
             else if(ballObj.x - ballObj.radius < 0) { ballObj.x = BASE_WIDTH / 2; ballObj.y = BASE_HEIGHT / 2; score2++; ballObj.dx = -4; ballObj.image = ball; if(score2 % 3 == 0) boost2 = true; }
 
