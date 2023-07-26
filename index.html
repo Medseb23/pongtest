@@ -99,7 +99,7 @@ power2Button.addEventListener('touchstart', function(event) {
         let cameraX = 0;
         let cameraY = 0;
 
-        const ballObj = { x: BASE_WIDTH / 2, y: BASE_HEIGHT / 2, dx: 4, dy: 4, radius: 10, speed: 2, image: ball };
+        const ballObj = { x: BASE_WIDTH / 2, y: BASE_HEIGHT / 2, dx: 4, dy: 4, radius: 15, speed: 4, image: ball };
         const playerWidth = 20, playerHeight = 100, playerSpeed = 4;
         let leftPlayerY = BASE_HEIGHT / 2, rightPlayerY = BASE_HEIGHT / 2;
         let upArrow = false, downArrow = false, wKey = false, sKey = false, dKey = false, rightArrow = false;
@@ -110,7 +110,7 @@ power2Button.addEventListener('touchstart', function(event) {
         function animate() {
             context.clearRect(0, 0, BASE_WIDTH, BASE_HEIGHT);
             context.drawImage(background, -cameraX, -cameraY, BASE_WIDTH, BASE_HEIGHT);
-            context.drawImage(ballObj.image, ballObj.x, ballObj.y, ballObj.radius, ballObj.radius);
+            context.drawImage(ballObj.image, ballObj.x, ballObj.y, ballObj.radius * 2, ballObj.radius * 2); 
             context.drawImage(player1, 0, leftPlayerY, playerWidth, playerHeight);
             context.drawImage(player2, BASE_WIDTH - playerWidth, rightPlayerY, playerWidth, playerHeight);
             ballObj.x += ballObj.dx;
@@ -136,8 +136,8 @@ power2Button.addEventListener('touchstart', function(event) {
             score1Element.textContent = score1;
             score2Element.textContent = score2;
 
-            if(boost1) context.drawImage(ballPower1, 10, 10, 20, 20);
-            if(boost2) context.drawImage(ballPower1, BASE_WIDTH - 30, 10, 20, 20);
+            if(boost1) context.drawImage(ballPower1, 10, 10, 30, 30);
+            if(boost2) context.drawImage(ballPower1, BASE_WIDTH - 30, 10, 30, 30);
 
             if(score1 == 7) { context.fillText("Player 1 Wins!", BASE_WIDTH / 2 - 50, BASE_HEIGHT / 2); restartButton.style.display = "block"; return; }
             if(score2 == 7) { context.fillText("Player 2 Wins!", BASE_WIDTH / 2 - 50, BASE_HEIGHT / 2); restartButton.style.display = "block"; return; }
