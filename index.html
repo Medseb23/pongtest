@@ -10,17 +10,51 @@
         .score-board .score { font-size: 24px; }
         .score-board .score span { font-size: 30px; font-weight: bold; }
         #fullscreen { position: absolute; bottom: 10px; right: 10px; font-size: 20px; padding: 10px 20px; }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #power1, #power2 {
+            animation: spin 2s linear infinite;
+            position: absolute; bottom: 10px; opacity: 0.5;
+        }
+        #power1 { left: 10px; }
+        #power2 { right: 10px; }
     </style>
 </head>
+
 <body>
     <canvas id="pong"></canvas>
     <button id="restart">Restart Game</button>
+<img id="power1" src="pelotapower1.png" style="position: absolute; left: 120px; bottom: 10px; opacity: 0.5;">
+<img id="power2" src="pelotapower1.png" style="position: absolute; right: 120px; bottom: 10px; opacity: 0.5;">
+
     <img id="fullscreen" src="fullscreen.png" width="50" height="50" style="cursor: pointer;">
     <div class="score-board">
         <div class="score">Player 1: <span id="score1">0</span></div>
         <div class="score">Player 2: <span id="score2">0</span></div>
     </div>
     <script>
+
+const power1Button = document.getElementById("power1");
+const power2Button = document.getElementById("power2");
+
+power1Button.addEventListener('touchstart', function(event) {
+    if (boost1) {
+        ballObj.dx *= 3;
+        ballObj.image = ballPower1;
+        boost1 = false;
+    }
+});
+
+power2Button.addEventListener('touchstart', function(event) {
+    if (boost2) {
+        ballObj.dx *= 3;
+        ballObj.image = ballPower1;
+        boost2 = false;
+    }
+});
+
         const canvas = document.getElementById("pong");
         const context = canvas.getContext("2d");
         const restartButton = document.getElementById("restart");
